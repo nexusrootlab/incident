@@ -16,7 +16,7 @@ No responsible disclosure channel was identified for Anomaly Innovations Inc. / 
 
 On April 2, 2026, a critical security and privacy vulnerability was observed while utilizing the `mimo-v2-pro-free` model via the **OpenCode Zen** provider (maintained by [Anomaly Innovations Inc.](https://anoma.ly)). During a routine local development task, the OpenCode agent suffered a severe context collapse, overriding the user's local prompt with instructions and code payloads originating from a completely different tenant's session.
 
-To forensically capture and verify this anomaly, the user explicitly permitted the agent to write the foreign payload to a local directory. This incident demonstrates a severe **Tenant Isolation Failure (Cross-Session Data Leakage)** at the API gateway layer, resulting in the plaintext exposure of another user's project structures, design specifications, and prompt instructions.
+To forensically capture and verify this anomaly, the user explicitly permitted the agent to write the foreign payload to a local directory. This incident demonstrates a severe **Tenant Isolation Failure (Cross-Session Data Leakage)** at the API gateway layer, resulting in the plaintext exposure of the LLM's response to another user's session — revealing their project structure, design specifications, and prompt intent.
 
 The output the LLM generated from the leaked payload is preserved as a forensic artifact at: **https://github.com/nexusrootlab/website**
 
@@ -114,7 +114,7 @@ The primary impact is a catastrophic failure of tenant isolation. Sensitive data
 
 ### Confidentiality of Prompts
 
-The leaked data included the foreign user's **raw prompt instructions** — their design language, tooling choices, and creative direction. Prompt contents can constitute intellectual property and may reveal business-sensitive or personally identifying context. This data was transmitted and executed on a third party's machine without any consent.
+While the raw prompt itself was not directly received — what was leaked was the LLM's response generated from it — that response exposes the foreign user's intent, design decisions, tooling choices, and creative direction in full. The response is a functional mirror of the prompt. Prompt contents can constitute intellectual property and may reveal business-sensitive or personally identifying context. This data was transmitted and executed on a third party's machine without any consent.
 
 ### Integrity: Agent Acting on Foreign Instructions
 
